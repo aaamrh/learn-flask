@@ -1,7 +1,9 @@
-from flask import Flask, make_response, redirect, url_for
+from flask import Flask, make_response, redirect, url_for, session, request
 import json
+import os
     
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
 
 @app.route('/')
 def index():
@@ -21,3 +23,26 @@ def set_cookie(name):
     response.mimetype = 'text/plain'
     response.set_cookie('name', name, max_age=10)
     return response
+
+@app.route('/login/')
+def login():
+    session['login_in'] = True
+    return redirect(url_for('hello'))
+
+@app.route('/')
+@app.route('/hello/')
+def hello():
+    name = request.args.get('name')
+    print(request)
+    print(name)
+    if name is None:
+        name = request.cookies.get('name','Huan')
+        response = '<h1>你好，%s</h1>' % name
+
+
+        if 'login_in' in session:
+            response += '登录了'
+        else:
+            response += '未登录'
+            abort(403)
+        return response
