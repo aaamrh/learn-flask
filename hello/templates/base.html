@@ -8,7 +8,7 @@
     <title>{% block title %} base.html {% endblock %}</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="/submit_form/" method="POST">
         <label for="username">username</label> <br />
         <input type="text" name="username" placeholder="marh"> <br />
 
@@ -20,6 +20,14 @@
 
         <input type="submit" name="submit" value="login">
 
+    </form>
+
+    <form action="" method="post">
+        {{ form.csrf_token }}
+        {{form.username.label}}{{ form.username }} <br>
+        {{form.pwd.label}}{{ form.pwd }} <br>
+        {{ form.rembPwd }}{{form.rembPwd.label}} <br>
+        {{ form.submit }}
     </form>
 
 

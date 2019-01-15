@@ -1,6 +1,8 @@
 from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash
 import json
 import os
+
+from forms import LoginForm
     
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
@@ -78,7 +80,7 @@ def hello():
             response += '未登录'
 
         return response
-
+ 
 @app.route('/watchlist/')
 def watchlist():
     return render_template('watchlist.html', user=user, movies = movies)
@@ -92,7 +94,8 @@ def inject_foo():
 
 @app.route('/base/')
 def base():
-    return render_template('usebase.html')
+    form = LoginForm()
+    return render_template('usebase.html', form=form)
 
 
 @app.route('/flash/')
@@ -104,3 +107,12 @@ def just_flash():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404 
+
+@app.route('/submit_form/', methods=['POST'])
+def submit_form():
+    postForm = request.form
+    print(postForm)
+    print('-------------')
+    name = request.form.get('username')
+    print(name)
+    return ''
