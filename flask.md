@@ -107,3 +107,30 @@
         <h1>use base.html</h1>
     {% endblock %}
 ```
+
+### 消息闪现
+``` python
+    @app.route('/flash/')
+    def just_flash():
+        flash(u'这是flask的闪现')
+        return redirect(url_for('base'))
+
+    # 在html中，需要用get_flash_message 获取消息
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+
+    # flash()函数发送的消息会存储在session中
+    # get_flashed_message()函数被调用时，session中存储的所有消息都会被移除
+
+```
+
+
+### 404 页面
+``` python
+    # 错误函数处理需要附加 app.errorhandler()装饰器
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+```

@@ -1,4 +1,4 @@
-from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template
+from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash
 import json
 import os
     
@@ -93,3 +93,14 @@ def inject_foo():
 @app.route('/base/')
 def base():
     return render_template('usebase.html')
+
+
+@app.route('/flash/')
+def just_flash():
+    flash(u'这是flask的闪现') 
+    return redirect(url_for('base'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404 
