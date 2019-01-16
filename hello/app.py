@@ -2,11 +2,11 @@ from flask import Flask, make_response, redirect, url_for, session, request, abo
 import json
 import os
 
-from forms import LoginForm
+from forms import LoginForm, UploadForm
     
 app = Flask(__name__)
 app.config.update(
-    SECRET_KEY=b'_5#y2L"F4Q8z\n\xec]/'
+    MAX_CONTENT_LENGTH=3*1024
 ) 
 app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
 
@@ -123,3 +123,9 @@ def submit_form():
         flash('welcome %s!' % username)
         return redirect(url_for('base'))
     return render_template('usebase.html', form=form) 
+
+
+@app.route('/upload/', methods=['POST','GET'])
+def upload():
+    form = UploadForm() 
+    return render_template('upload.html', form=form)

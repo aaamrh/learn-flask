@@ -12,4 +12,4 @@ class LoginForm(FlaskForm):
 
 class UploadForm(FlaskForm):
     photo = FileField('上传图片', validators=[FileRequired(), FileAllowed(['jpg','png'], message='只能上传jpg,png格式的')])
-    
+    submit = SubmitField('')
