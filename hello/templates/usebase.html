@@ -3,5 +3,33 @@
 
 {% block content %}
     {{ super() }}
-    <h1>use base.html</h1>
+    <h1>use base.html</h1>{{ foo }}
+
+    {# <form action="/submit_form/" method="post">
+        {{ form.csrf_token }}
+        {{ form.username.label }} {{ form.username(class='form-control') }} <br>
+        {% for msg in form.username.errors %}
+            <small style="color:red">{{msg}}</small>
+        {% endfor %}
+
+        {{ form.pwd.label}} {{ form.pwd }} <br>
+        {% for msg in form.pwd.errors %}
+            <small style="color:red">{{msg}}</small>
+        {% endfor %}
+        {{ form.rembPwd }} {{form.rembPwd.label}} <br>
+        {{ form.submit }}
+    </form>
+    #}
+
+    {% from 'macros.html' import form_field %}
+    <form action="/submit_form/" method="POST">
+        {{ form.csrf_token }}
+        {{ form_field(form.username) }}
+        {{ form_field(form.pwd) }}
+        {{ form_field(form.rembPwd) }}
+        {{ form_field(form.submit) }}
+    </form>
 {% endblock %}
+
+
+

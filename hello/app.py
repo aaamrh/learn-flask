@@ -1,8 +1,13 @@
 from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash
 import json
 import os
+
+from forms import LoginForm
     
 app = Flask(__name__)
+app.config.update(
+    SECRET_KEY=b'_5#y2L"F4Q8z\n\xec]/'
+) 
 app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
 
 
@@ -78,7 +83,7 @@ def hello():
             response += '未登录'
 
         return response
-
+ 
 @app.route('/watchlist/')
 def watchlist():
     return render_template('watchlist.html', user=user, movies = movies)
@@ -90,12 +95,31 @@ def inject_foo():
     return dict(foo=foo,bar=bar)    
 
 
-@app.route('/base/')
-def base():
-    return render_template('usebase.html')
-
-
 @app.route('/flash/')
 def just_flash():
-    flash('I am flash, who is looking for me?')
-    return redirect(url_for('index'))
+    flash(u'这是flask的闪现') 
+    return redirect(url_for('base')) 
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404 
+
+
+@app.route('/base/')
+def base():
+    form = LoginForm()
+    return render_template('usebase.html', form=form)
+
+
+@app.route('/submit_form/', methods=['POST'])
+def submit_form():
+    print('-------------')
+    form = LoginForm()
+    if form.validate_on_submit():
+        username=form.username.data
+        print(username)
+        print('-------------')
+        flash('welcome %s!' % username)
+        return redirect(url_for('base'))
+    return render_template('usebase.html', form=form) 
