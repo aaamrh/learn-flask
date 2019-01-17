@@ -1,19 +1,21 @@
-from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash
+from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash, send_from_directory
 import json
 import os
+import uuid
 
 from forms import LoginForm, UploadForm
     
 app = Flask(__name__)
 app.config.update(
-    MAX_CONTENT_LENGTH=3*1024
+    MAX_CONTENT_LENGTH=3*1024*1024,
+    UPLOAD_PATH = os.path.join(app.root_path, 'uploads')
 ) 
 app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
 
 
 user = {
-'username': 'Grey Li',
-'bio': 'A boy who loves movies and music.',
+    'username': 'Grey Li',
+    'bio': 'A boy who loves movies and music.',
 } 
 movies = [
     {'name': 'My Neighbor Totoro', 'year': '1988'},
@@ -84,9 +86,11 @@ def hello():
 
         return response
  
+
 @app.route('/watchlist/')
 def watchlist():
     return render_template('watchlist.html', user=user, movies = movies)
+
 
 @app.context_processor
 def inject_foo():
@@ -128,4 +132,37 @@ def submit_form():
 @app.route('/upload/', methods=['POST','GET'])
 def upload():
     form = UploadForm() 
+    print('upload file')
+    print(form)
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = random_filename(f.filename)
+        print('++++++++++++++++++')
+        f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+        flash('upload files')
+        session['filenames'] = [filename]
+        print( session['filenames'])
+        
+        return redirect(url_for('show_images'))
+
+    print('-----------------')
     return render_template('upload.html', form=form)
+
+
+@app.route('/uploads/<path:filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOAD_PATH'], filename)
+
+
+@app.route('/show_img/')
+def show_images():
+    return render_template('uploaded.html')
+
+
+def random_filename(filename):
+    ext = os.path.splitext(filename)[1]
+    print(os.path.splitext(filename))
+    print(uuid.uuid4())
+    print(uuid.uuid4().hex)
+    new_filename = uuid.uuid4().hex + ext
+    return new_filename
