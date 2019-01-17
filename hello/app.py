@@ -2,6 +2,7 @@ from flask import Flask, make_response, redirect, url_for, session, request, abo
 import json
 import os
 import uuid
+import datetime
 
 from forms import LoginForm, UploadForm
     
@@ -160,9 +161,7 @@ def show_images():
 
 
 def random_filename(filename):
-    ext = os.path.splitext(filename)[1]
-    print(os.path.splitext(filename))
-    print(uuid.uuid4())
-    print(uuid.uuid4().hex)
-    new_filename = uuid.uuid4().hex + ext
+    ext = os.path.splitext(filename)[1]  # ext :扩展名
+    # new_filename = uuid.uuid4().hex + ext
+    new_filename = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+ext 
     return new_filename
