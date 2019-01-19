@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% from 'macros.html' import form_field %}
+
+{% block content %}
+    <form action="two-submits" method="POST">
+        {{ form.csrf_token }}
+
+        {{ form_field(form.title) }}
+        {{ form_field(form.body) }}
+        {{ form.save }}
+        {{ form.publish }}
+    
+    </form>
+{% endblock %}

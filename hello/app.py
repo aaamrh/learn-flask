@@ -1,4 +1,5 @@
-from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash, send_from_directory
+from flask import Flask, make_response, redirect, url_for, session, request, abort, \
+render_template,flash, send_from_directory
 from flask_ckeditor import CKEditor
 
 import json
@@ -6,7 +7,7 @@ import os
 import uuid
 import datetime
 
-from forms import LoginForm, UploadForm, RichTextForm
+from forms import LoginForm, UploadForm, RichTextForm, NewPostForm
     
 app = Flask(__name__)
 app.config.update(
@@ -181,3 +182,15 @@ def integrate_ckeditor():
         flash('Your post is published!')
         return render_template('post.html', title=title, body=body)
     return render_template('ckeditor.html', form=form)
+
+ 
+@app.route('/two-submits', methods=['GET','POST'])
+def two_submits():
+    form = NewPostForm()
+    if form.validate_on_submit():
+        if form.save.data:
+            flash('保存成功')
+        elif form.publish.data:
+            flash('发布成功')
+        return redirect(url_for('index'))
+    return render_template('2submit.html', form=form)
