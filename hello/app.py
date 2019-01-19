@@ -1,18 +1,23 @@
 from flask import Flask, make_response, redirect, url_for, session, request, abort, render_template,flash, send_from_directory
+from flask_ckeditor import CKEditor
+
 import json
 import os
 import uuid
 import datetime
 
-from forms import LoginForm, UploadForm
+from forms import LoginForm, UploadForm, RichTextForm
     
 app = Flask(__name__)
 app.config.update(
     MAX_CONTENT_LENGTH=3*1024*1024,
-    UPLOAD_PATH = os.path.join(app.root_path, 'uploads')
+    UPLOAD_PATH = os.path.join(app.root_path, 'uploads'),
+    CKEDITOR_SERVE_LOCAL = True,
+    CKEDITOR_LANGUAGE = 'zh-cn'
 ) 
 app.secret_key = os.getenv('SECRET_KEY','tudou tudou,woshidigua')
 
+ckeditor = CKEditor(app)
 
 user = {
     'username': 'Grey Li',
@@ -165,3 +170,14 @@ def random_filename(filename):
     # new_filename = uuid.uuid4().hex + ext
     new_filename = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+ext 
     return new_filename
+
+
+@app.route('/ckeditor', methods=['GET', 'POST'])
+def integrate_ckeditor():
+    form = RichTextForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        body = form.body.data
+        flash('Your post is published!')
+        return render_template('post.html', title=title, body=body)
+    return render_template('ckeditor.html', form=form)
