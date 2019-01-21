@@ -25,3 +25,11 @@ class NewPostForm(FlaskForm):
     body = TextAreaField('Body', validators=[DataRequired()])
     save = SubmitField('save')
     publish = SubmitField('publish')
+
+
+class NewNoteForm(FlaskForm):
+    body = TextAreaField('Body', validators=[DataRequired()])
+    submit = SubmitField('save')
+
+class DeleteNoteForm(FlaskForm):
+    submit = SubmitField('Delete')

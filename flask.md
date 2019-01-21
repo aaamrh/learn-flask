@@ -135,4 +135,74 @@
         return render_template('errors/404.html'), 404
 ```
 
+### 链接数据库
+```sql
+    -- mysql8.0 版本之后1130解决方案
+    CREATE USER 'marh'@'%' IDENTIFIED BY 'password';
 
+    GRANT ALL PRIVILEGES ON *.* TO 'marh'@'%' WITH GRANT OPTION;
+
+    -- mysql8.0之前
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '密码' WITH GRANT OPTION;
+
+    flush privileges;
+```
+
+### python shell CURD
+```python
+
+    from app import db, Note
+    # Create
+    note = Note(body='Are these your keys?')
+    db.session.add(note)
+    db.session.commit()
+
+    # Read
+    # 执行sql语句
+    sql = 'select * from note'
+    res = db.session.execute(sql)
+
+    Note.query.all()
+    Note.query.first()
+    Note.query.get(id)
+    Note.query.count()
+    Note.query.filter_by(body='hello').first()
+    Note.query.filter(Note.body='hello').first()
+    Note.query.filter(Note.body.like('%hello%'))
+    Note.query.filter(Note.body.in_(['bar', 'foo', 'baz']))
+    Note.query.filter(-Note.body.in_(['foo','bar']))
+
+    Note.query.filter(and_(Note.body=='foo', Note.title =='2019')) 
+    # 或者
+    Note.query.filter(Note.body=='foo',Note.tite =='2019')
+    # 或者
+    Note.query.filter(Note.body=='foo').filter(Note.title=='2019')
+
+    Note.query.filter(or_(Note.body=='foo', Note.body=='bar'))
+
+    # Update
+    note = Note.query.get(2)
+    note.body = 'update'
+    db.session.commit()
+
+    # delete
+    note = Note.query.get(2)
+    db.session.delete(note)
+    db.session.commit()
+
+
+
+```
+
+### 在视图函数里操作数据库
+```python
+
+    # Create
+    body = form.body.data
+    note = Note(body=body)
+    db.session.add(note)
+    db.session.commit()
+
+    # Read
+    
+```

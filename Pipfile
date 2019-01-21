@@ -11,8 +11,9 @@ watchdog = "*"
 flask = "*"
 python-dotenv = "*"
 flask-wtf = "*"
-flask-cheditor = "*"
 flask-ckeditor = "*"
+flask-sqlalchemy = "*"
+pymysql = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "069da3972656e8dacf05c11e0df5e78ac4958bd8f43dd2f034941c86372e1a95"
+            "sha256": "d35c7d84eb4a1e202a734f6d6b1b4d099ebe8b5e8b3562434e72c37fe6b79c58"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -30,6 +30,22 @@
             ],
             "index": "pypi",
             "version": "==1.0.2"
+        },
+        "flask-ckeditor": {
+            "hashes": [
+                "sha256:327ad60c3787d96cdc579ce04c284d33343802d3b7422ba998aadbbdee6756f1",
+                "sha256:8d91ee747473dc4e6e0dc166fd71b3136b7d388de757731c019fad835d776c8e"
+            ],
+            "index": "pypi",
+            "version": "==0.4.3"
+        },
+        "flask-sqlalchemy": {
+            "hashes": [
+                "sha256:3bc0fac969dd8c0ace01b32060f0c729565293302f0c4269beed154b46bec50b",
+                "sha256:5971b9852b5888655f11db634e87725a9031e170f37c0ce7851cf83497f56e53"
+            ],
+            "index": "pypi",
+            "version": "==2.3.2"
         },
         "flask-wtf": {
             "hashes": [
@@ -86,6 +102,14 @@
             ],
             "version": "==1.1.0"
         },
+        "pymysql": {
+            "hashes": [
+                "sha256:3943fbbbc1e902f41daf7f9165519f140c4451c179380677e6a848587042561a",
+                "sha256:d8c059dcd81dedb85a9f034d5e22dcb4442c0b201908bede99e306d65ea7c8e7"
+            ],
+            "index": "pypi",
+            "version": "==0.9.3"
+        },
         "python-dotenv": {
             "hashes": [
                 "sha256:a84569d0e00d178bc5b957f7ff208bf49287cbf61857c31c258c4a91f571527b",
@@ -93,6 +117,12 @@
             ],
             "index": "pypi",
             "version": "==0.10.1"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:6af3ca2f7f00844465ab4fa78337d487b39e53f516c51328aed4ed3a719d4264"
+            ],
+            "version": "==1.2.16"
         },
         "werkzeug": {
             "hashes": [
@@ -227,9 +257,9 @@
         },
         "wrapt": {
             "hashes": [
-                "sha256:e03f19f64d81d0a3099518ca26b04550026f131eced2e76ced7b85c6b8d32128"
+                "sha256:4aea003270831cceb8a90ff27c4031da6ead7ec1886023b80ce0dfe0adf61533"
             ],
-            "version": "==1.11.0"
+            "version": "==1.11.1"
         }
     }
 }
