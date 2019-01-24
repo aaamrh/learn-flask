@@ -33,3 +33,6 @@ class NewNoteForm(FlaskForm):
 
 class DeleteNoteForm(FlaskForm):
     submit = SubmitField('Delete')
+
+class EditNoteForm(NewNoteForm):
+    submit = SubmitField('Update')

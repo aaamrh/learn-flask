@@ -10,7 +10,7 @@ import os
 import uuid
 import datetime
 
-from forms import LoginForm, UploadForm, RichTextForm, NewPostForm, NewNoteForm, DeleteNoteForm
+from forms import LoginForm, UploadForm, RichTextForm, NewPostForm, NewNoteForm, DeleteNoteForm, EditNoteForm
 
     
 app = Flask(__name__)
@@ -61,3 +61,35 @@ def new_note():
         flash('Your note is saved')
         return redirect(url_for('index'))
     return render_template('new_note.html', form=form)
+
+
+@app.route('/edit/<int:note_id>', methods=['GET', 'POST'])
+def edit_note(note_id):
+    form = EditNoteForm()
+    note = Note.query.get(note_id)
+    if form.validate_on_submit():
+        note.body = form.body.data
+        db.session.commit()
+        flash('修改成功')
+        return redirect(url_for('index'))
+    form.body.data = note.body
+    return render_template("edit_note.html", form=form)
+
+
+@app.route('/del/<int:note_id>', methods=['GET','POST'])
+def delete_note(note_id):
+    form = DeleteNoteForm()
+    note = Note.query.get(note_id)
+
+    if form.validate_on_submit():
+        db.session.delete(note)
+        db.session.commit()
+        flash('删除成功')
+    else:
+        abort(404)
+    return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404

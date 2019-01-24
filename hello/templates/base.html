@@ -24,7 +24,7 @@
 
    
     {% for message in get_flashed_messages() %}
-        {{ message }}
+        <strong style="color:red">{{ message }}</strong>
     {% endfor %}
 
     {% block content %} base.html {% endblock %}
