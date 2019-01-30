@@ -37,6 +37,20 @@ class Note(db.Model):
         return '<Note %r>' % self.body
 
 
+class Author(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    phone = db.Column(db.String(20))
+    articles = db.relationship('Article')
+
+
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author_id=db.Column(db.Integer, db.ForeignKey('author.id'))
+    title = db.Column(db.String(20), index=True)
+    body = db.Column(db.Text)
+
+
 @app.route('/')
 def index():
     form = DeleteNoteForm()
